@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Estudo: CSS Grid e @media</title>
+<style>
+  @page { size: A4; margin: 16mm 15mm; }
+  * { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { font-family: "Segoe UI", Arial, sans-serif; font-size: 10.5pt; line-height: 1.5; color: #2a1a14; margin: 0; }
+  h1 { font-size: 22pt; margin: 0 0 4px; color: #1b3a4b; }
+  .sub { color: #7a5c50; margin: 0 0 18px; }
+  h2 { font-size: 14pt; color: #1b3a4b; border-bottom: 2px solid #ff8c69; padding-bottom: 3px; margin: 22px 0 10px; break-after: avoid; }
+  h3 { font-size: 11.5pt; margin: 14px 0 6px; break-after: avoid; }
+  p { margin: 0 0 8px; }
+  ul { margin: 0 0 8px; padding-left: 20px; }
+  li { margin-bottom: 3px; }
+  code { font-family: Consolas, monospace; background: #fdeee7; padding: 1px 4px; border-radius: 3px; font-size: 9.5pt; }
+  pre { font-family: Consolas, monospace; font-size: 9.5pt; background: #1b3a4b; color: #fdf3e7; padding: 10px 12px; border-radius: 6px; margin: 0 0 10px; white-space: pre-wrap; break-inside: avoid; }
+  pre .c { color: #ffc145; }
+  table { width: 100%; border-collapse: collapse; margin: 0 0 10px; break-inside: avoid; }
+  th, td { border: 1px solid #f0d9cd; padding: 5px 7px; text-align: left; vertical-align: top; }
+  th { background: #fff1ea; }
+  .barra-linha { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; break-inside: avoid; }
+  .barra-linha .rot { width: 70px; font-family: Consolas, monospace; font-weight: bold; }
+  .barra-linha .info { color: #7a5c50; font-size: 9.5pt; }
+  .barra { display: grid; grid-template-columns: repeat(12, 18px); gap: 2px; padding: 3px; background: #6b3e26; border-radius: 4px; }
+  .barra span { height: 18px; border-radius: 2px; }
+  .a1 { background: #ff8c69; } .a2 { background: #ffc145; } .a3 { background: #5aa9c9; } .a4 { background: #8bc58e; }
+  .regra { background: #fff6e0; border-left: 4px solid #ffc145; padding: 8px 12px; margin: 0 0 10px; break-inside: avoid; }
+  .texto-entrega { border: 1px solid #f0d9cd; border-radius: 6px; padding: 10px 12px; margin-bottom: 10px; }
+  .quebra { break-before: page; }
+</style>
+</head>
+<body>
+
+<h1>Estudo: Grid, @media, Flexbox e Menu</h1>
+<p class="sub">Site Patas Unidas · resumo para estudar com calma depois da entrega. Tudo aqui está no seu <code>estilo.css</code>.</p>
+
+<h2>1. O Grid de 12 colunas</h2>
+<pre>main {
+    display: grid;                          <span class="c">/* liga o grid no main */</span>
+    grid-template-columns: repeat(12, 1fr); <span class="c">/* cria 12 colunas iguais */</span>
+    gap: var(--espaco-medio);               <span class="c">/* espaço entre as caixas (16px) */</span>
+}</pre>
+<ul>
+  <li><code>display: grid</code>: transforma o <code>main</code> numa "grade".</li>
+  <li><code>repeat(12, 1fr)</code>: repete 12 vezes uma coluna de <code>1fr</code>.</li>
+  <li><code>fr</code> = "fração": divide o espaço em partes iguais. 12 colunas de <code>1fr</code> = cada uma ocupa 1/12 da largura.</li>
+  <li><code>gap</code>: o espaço entre as colunas e as linhas.</li>
+</ul>
+
+<h3>A barra de chocolate</h3>
+<p>O grid é uma barra de chocolate com <b>12 quadradinhos</b>. O <code>span</code> diz quantos quadradinhos cada <code>section</code> come. Cada cor abaixo é uma section.</p>
+
+<div class="barra-linha"><span class="rot">span 12</span>
+  <div class="barra"><span class="a1"></span><span class="a1"></span><span class="a1"></span><span class="a1"></span><span class="a1"></span><span class="a1"></span><span class="a1"></span><span class="a1"></span><span class="a1"></span><span class="a1"></span><span class="a1"></span><span class="a1"></span></div>
+  <span class="info">1 por linha (12 ÷ 1 = 12)</span></div>
+<div class="barra-linha"><span class="rot">span 6</span>
+  <div class="barra"><span class="a1"></span><span class="a1"></span><span class="a1"></span><span class="a1"></span><span class="a1"></span><span class="a1"></span><span class="a2"></span><span class="a2"></span><span class="a2"></span><span class="a2"></span><span class="a2"></span><span class="a2"></span></div>
+  <span class="info">2 por linha (12 ÷ 2 = 6)</span></div>
+<div class="barra-linha"><span class="rot">span 4</span>
+  <div class="barra"><span class="a1"></span><span class="a1"></span><span class="a1"></span><span class="a1"></span><span class="a2"></span><span class="a2"></span><span class="a2"></span><span class="a2"></span><span class="a3"></span><span class="a3"></span><span class="a3"></span><span class="a3"></span></div>
+  <span class="info">3 por linha (12 ÷ 3 = 4)</span></div>
+<div class="barra-linha"><span class="rot">span 3</span>
+  <div class="barra"><span class="a1"></span><span class="a1"></span><span class="a1"></span><span class="a2"></span><span class="a2"></span><span class="a2"></span><span class="a3"></span><span class="a3"></span><span class="a3"></span><span class="a4"></span><span class="a4"></span><span class="a4"></span></div>
+  <span class="info">4 por linha (12 ÷ 4 = 3)</span></div>
+
+<div class="regra"><b>Regra:</b> quantas sections você quer por linha? Faça <b>12 ÷ esse número</b>. O resultado é o span.</div>
+
+<h2>2. O que é @media</h2>
+<p><code>@media</code> é um "SE" do CSS: <b>se a tela for de tal tamanho, aplique estas regras</b>.</p>
+<pre>@media(min-width:768px) {    <span class="c">/* SE a tela tiver no MÍNIMO 768px... */</span>
+    section {                <span class="c">/* ...então, na section... */</span>
+        grid-column: span 6; <span class="c">/* ...ocupe 6 colunas */</span>
+    }
+}</pre>
+<ul>
+  <li><code>min-width: 768px</code> = "de 768px <b>para cima</b>".</li>
+  <li>Dentro do @media vai um bloco CSS normal: seletor + <code>{</code> + propriedades + <code>}</code>.</li>
+  <li>São <b>2 pares de chaves</b>: um do <code>@media</code> e um do seletor.</li>
+</ul>
+
+<h2>3. Os seus 5 breakpoints</h2>
+<table>
+  <tr><th>Breakpoint</th><th>Tipo de tela</th><th>O que muda</th></tr>
+  <tr><td>(sem @media)</td><td>celular</td><td><code>section</code> ocupa 12 colunas (1 por linha)</td></tr>
+  <tr><td>576px</td><td>celular grande</td><td><code>body</code> com padding maior (<code>--espaco-muito-grande</code>)</td></tr>
+  <tr><td>768px</td><td>tablet</td><td><code>section</code> span 6 (2 por linha)</td></tr>
+  <tr><td>992px</td><td>notebook</td><td><code>section</code> span 4 (3 por linha)</td></tr>
+  <tr><td>1200px</td><td>desktop</td><td><code>section</code> span 3 (4 por linha)</td></tr>
+  <tr><td>1400px</td><td>tela muito grande</td><td><code>main</code> com <code>max-width: 1320px</code> e <code>margin: 0 auto</code> (centralizado)</td></tr>
+</table>
+
+<h3>max-width e margin: 0 auto</h3>
+<ul>
+  <li><code>max-width: 1320px</code>: o <code>main</code> cresce, mas <b>nunca passa</b> de 1320px.</li>
+  <li><code>margin: 0 auto</code>: <code>0</code> em cima e embaixo; <code>auto</code> divide o espaço que sobra entre esquerda e direita, <b>centralizando</b>.</li>
+</ul>
+
+<h2>4. Estratégia: Mobile First</h2>
+<p>Você escreveu o CSS <b>primeiro para o celular</b> (sem @media) e depois foi <b>adicionando</b> mudanças para telas maiores com <code>min-width</code>. Isso se chama <b>Mobile First</b> ("celular primeiro").</p>
+
+<h2>5. Quem vem por último ganha</h2>
+<p>Quando duas regras valem ao mesmo tempo para o mesmo elemento, <b>vence a que está mais embaixo no arquivo</b>.</p>
+<p>Exemplo do erro que aconteceu: um bloco de 768px (span 6) colado <b>depois</b> do 992px (span 4). Numa tela de 1000px os dois valem, e o de baixo (span 6) apagava o span 4.</p>
+<div class="regra">Com <code>min-width</code>, coloque os @media do <b>menor para o maior</b>.</div>
+
+<h2>6. Erros que você cometeu (e como evitar)</h2>
+<table>
+  <tr><th>Erro</th><th>Certo</th><th>Por quê</th></tr>
+  <tr><td><code>var(--espaço-muinto-grande)</code></td><td><code>var(--espaco-muito-grande)</code></td><td>O nome da variável tem que ser <b>idêntico</b> ao do <code>:root</code>. Dica: copie e cole o nome.</td></tr>
+  <tr><td><code>max-width: 1320;</code></td><td><code>max-width: 1320px;</code></td><td>Tamanho sem unidade (<code>px</code>) é ignorado pelo navegador.</td></tr>
+  <tr><td><code>928px</code></td><td><code>992px</code></td><td>Número digitado trocado. Confira sempre.</td></tr>
+  <tr><td>Bloco colado 2 vezes</td><td>Colar só uma vez</td><td>O Ctrl+V cola o que ficou copiado da última vez.</td></tr>
+  <tr><td>Esquecer a <code>{</code> depois do seletor</td><td><code>section {</code></td><td>Sem ela o bloco quebra.</td></tr>
+  <tr><td>Não salvar</td><td>Ctrl+S</td><td>Sem salvar, o navegador não vê a mudança.</td></tr>
+</table>
+
+<h2>7. Para treinar depois</h2>
+<p>A pasta <code>meu projeto 1\treino-media\</code> tem 5 exercícios de @media em <code>treino.css</code>. Os exercícios 2, 3 e 4 ainda precisam ser refeitos <b>com</b> @media.</p>
+
+<h2 class="quebra">8. Flexbox: alinhar coisas DENTRO das caixas</h2>
+<p>O <b>Grid</b> organiza as áreas grandes da página (as sections). O <b>Flexbox</b> organiza o que fica <b>dentro</b> de cada caixa: título, texto, botão, campos do formulário.</p>
+<pre>section {
+    display: flex;            <span class="c">/* liga o flexbox: a section vira um "contentor" */</span>
+    flex-direction: column;   <span class="c">/* itens um embaixo do outro (row = lado a lado) */</span>
+    align-items: flex-start;  <span class="c">/* alinha os itens no começo (esquerda) */</span>
+    gap: var(--espaco-pequeno); <span class="c">/* espaço entre os itens */</span>
+}</pre>
+<table>
+  <tr><th>Propriedade</th><th>Para que serve</th></tr>
+  <tr><td><code>display: flex</code></td><td>Liga o Flexbox. O elemento vira o "contentor" e os filhos viram "itens".</td></tr>
+  <tr><td><code>flex-direction</code></td><td><code>row</code> = lado a lado (padrão). <code>column</code> = um embaixo do outro.</td></tr>
+  <tr><td><code>justify-content</code></td><td>Distribui os itens na direção principal. <code>space-between</code> = um em cada ponta.</td></tr>
+  <tr><td><code>align-items</code></td><td>Alinha os itens na outra direção. <code>center</code> = no meio; <code>flex-start</code> = no começo.</td></tr>
+  <tr><td><code>flex-wrap: wrap</code></td><td>Se não couber na linha, o item desce para a linha de baixo.</td></tr>
+  <tr><td><code>gap</code></td><td>Espaço entre os itens.</td></tr>
+  <tr><td><code>align-self</code></td><td>Alinha só <b>um</b> item, diferente dos outros.</td></tr>
+</table>
+<h3>Onde você usou</h3>
+<table>
+  <tr><th>Componente</th><th>Propriedades</th></tr>
+  <tr><td>Cartões (<code>section</code>)</td><td>flex, column, align-items: flex-start, gap</td></tr>
+  <tr><td>Contato (<code>address</code>)</td><td>flex, column, gap</td></tr>
+  <tr><td>Formulário (<code>form</code>)</td><td>flex, column, gap; no botão: align-self: flex-start</td></tr>
+  <tr><td>Grupos (<code>fieldset</code>)</td><td>flex, flex-wrap: wrap, align-items: center, gap</td></tr>
+</table>
+
+<h2 class="quebra">9. Menu responsivo: dropdown e hambúrguer</h2>
+<h3>A estrutura no HTML</h3>
+<pre>&lt;header class="cabecalho"&gt;
+  &lt;a class="logo"&gt;Patas Unidas&lt;/a&gt;
+  &lt;input type="checkbox" id="menu-toggle" class="menu-toggle"&gt;   <span class="c">&lt;!-- guarda aberto/fechado --&gt;</span>
+  &lt;label for="menu-toggle" class="hamburguer"&gt;&amp;#9776;&lt;/label&gt;  <span class="c">&lt;!-- o ícone ☰ --&gt;</span>
+  &lt;nav class="menu"&gt;
+    &lt;ul class="menu-lista"&gt;
+      &lt;li&gt;Sobre&lt;/li&gt;
+      &lt;li class="tem-submenu"&gt;Como ajudar
+        &lt;ul class="submenu"&gt; ...3 links... &lt;/ul&gt;          <span class="c">&lt;!-- o dropdown --&gt;</span>
+      &lt;/li&gt;
+      &lt;li&gt;Contato&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/nav&gt;
+&lt;/header&gt;</pre>
+
+<h3>Truque 1: o hambúrguer sem JavaScript (checkbox)</h3>
+<ul>
+  <li>O <b>checkbox</b> fica escondido (<code>display: none</code>), mas ele continua funcionando.</li>
+  <li>O <b>label</b> com <code>for="menu-toggle"</code> é ligado ao checkbox: clicar no ☰ marca/desmarca o checkbox.</li>
+  <li>No celular o menu começa fechado: <code>max-height: 0; overflow: hidden;</code></li>
+  <li>Quando o checkbox está marcado, este seletor abre o menu:</li>
+</ul>
+<pre>.menu-toggle:checked ~ .menu {   <span class="c">/* checkbox MARCADO  +  "~" = o .menu que vem depois dele */</span>
+    max-height: 500px;
+}</pre>
+<ul>
+  <li><code>:checked</code> é uma <b>pseudo-classe</b>: vale só quando o checkbox está marcado.</li>
+  <li><code>transition: max-height 0.3s ease</code> faz o menu abrir deslizando.</li>
+</ul>
+
+<h3>Truque 2: o dropdown (submenu)</h3>
+<ul>
+  <li>O item pai recebe <code>position: relative</code>, e o submenu recebe <code>position: absolute; top: 100%;</code>. Assim o submenu "flutua" logo abaixo do pai.</li>
+  <li>Escondido por padrão: <code>opacity: 0; visibility: hidden;</code></li>
+  <li>Aparece com as pseudo-classes <code>:hover</code> (mouse em cima) e <code>:focus-within</code> (navegando pelo teclado):</li>
+</ul>
+<pre>.tem-submenu:hover .submenu,
+.tem-submenu:focus-within .submenu {
+    opacity: 1;
+    visibility: visible;
+}</pre>
+
+<h3>O @media que troca tudo</h3>
+<table>
+  <tr><th></th><th>Celular (padrão)</th><th>A partir de 768px</th></tr>
+  <tr><td>Ícone ☰</td><td>aparece</td><td><code>display: none</code></td></tr>
+  <tr><td>Menu</td><td>fechado, abre no clique</td><td>sempre visível</td></tr>
+  <tr><td>Lista</td><td><code>column</code> (vertical)</td><td><code>row</code> (horizontal)</td></tr>
+  <tr><td>Submenu</td><td>sempre visível, com recuo</td><td>escondido, aparece no hover</td></tr>
+</table>
+
+<h2 class="quebra">10. Estados dos botões, cartões e validação</h2>
+<p>Pseudo-classes são "momentos" de um elemento. O CSS dentro delas só vale naquele momento.</p>
+<table>
+  <tr><th>Pseudo-classe</th><th>Quando acontece</th><th>O que você fez</th></tr>
+  <tr><td><code>:hover</code></td><td>mouse em cima</td><td>cor muda, botão sobe (<code>translateY(-2px)</code>), sombra maior</td></tr>
+  <tr><td><code>:focus-visible</code></td><td>chegou no elemento pelo Tab do teclado</td><td>contorno (<code>outline</code>) visível</td></tr>
+  <tr><td><code>:active</code></td><td>no momento do clique</td><td>botão "afunda" (<code>translateY(2px)</code>)</td></tr>
+  <tr><td><code>:disabled</code></td><td>botão desativado</td><td><code>opacity: 0.5</code>, <code>cursor: not-allowed</code></td></tr>
+  <tr><td><code>:focus</code></td><td>campo do formulário selecionado</td><td>borda azul + brilho (<code>box-shadow</code>)</td></tr>
+  <tr><td><code>:user-valid</code></td><td>campo preenchido <b>certo</b> (depois que a pessoa mexeu)</td><td>borda <code>--sucesso</code> (verde)</td></tr>
+  <tr><td><code>:user-invalid</code></td><td>campo preenchido <b>errado</b> (depois que a pessoa mexeu)</td><td>borda <code>--erro</code> (vermelho)</td></tr>
+</table>
+<h3>transition: a mudança suave</h3>
+<pre>transition: background-color 0.3s ease;
+<span class="c">/*          O QUE muda       QUANTO tempo  COMO (ease = começa e termina devagar) */</span></pre>
+<p>Sem <code>transition</code>, a mudança acontece de uma vez. Com ela, a cor ou a posição muda aos poucos.</p>
+<h3>Como o navegador sabe se o campo está certo?</h3>
+<p>Pelos atributos do HTML: <code>required</code> (obrigatório), <code>type="email"</code> (tem que ter @) e <code>pattern</code> (formato, ex.: CPF <code>000.000.000-00</code>). O CSS só pinta de verde ou vermelho.</p>
+
+<h2 class="quebra">11. Componentes de feedback: badge, alerta e toast</h2>
+<p>Feedback = o site "responde" ao usuário. São 3 tipos:</p>
+<table>
+  <tr><th>Componente</th><th>O que é</th><th>Truque principal no CSS</th></tr>
+  <tr><td><b>Badge</b> (etiqueta)</td><td>Pílula pequena colorida que classifica algo: "Disponível", "Adotado", "Cão"</td><td><code>display: inline-block</code>, fonte pequena, <code>border-radius: 999px</code>, uma cor por classe</td></tr>
+  <tr><td><b>Alerta</b></td><td>Caixa de mensagem: sucesso, atenção, erro, informação</td><td><code>border-left: 6px solid</code> + fundo claro da mesma cor</td></tr>
+  <tr><td><b>Toast</b></td><td>Notificação que aparece no canto da tela, por cima de tudo</td><td><code>position: fixed</code> + <code>right</code>/<code>bottom</code> + <code>@keyframes</code> para entrar</td></tr>
+</table>
+<h3>Uma classe base + uma classe de cor</h3>
+<pre>&lt;span class="badge badge-sucesso"&gt;Disponível&lt;/span&gt;
+<span class="c">/*   .badge         = formato (igual para todas)
+     .badge-sucesso = só a cor (muda em cada uma)  */</span></pre>
+<p>Assim você escreve o formato uma vez só e troca apenas a cor. As cores vêm das variáveis: <code>--sucesso</code>, <code>--aviso</code>, <code>--erro</code>, <code>--info</code>.</p>
+<h3>@keyframes: animação</h3>
+<pre>@keyframes toast-entrar {
+    from { opacity: 0; transform: translateY(20px); }  <span class="c">/* começa invisível e mais embaixo */</span>
+    to   { opacity: 1; transform: translateY(0); }     <span class="c">/* termina visível no lugar */</span>
+}
+.toast { animation: toast-entrar 0.5s ease 0.5s both; }
+<span class="c">/*               nome          duração    espera  */</span></pre>
+<h3>role="status" e role="alert"</h3>
+<p>Atributos do HTML para acessibilidade: avisam o leitor de tela (usado por pessoas cegas) que ali tem uma mensagem. <code>alert</code> é para erro (urgente), <code>status</code> para o resto.</p>
+
+<h2 class="quebra">12. Biblioteca externa: Day.js (datas)</h2>
+<p><b>Biblioteca</b> = código pronto que outra pessoa fez. É como uma <b>caixa de ferramentas emprestada</b>: em vez de fazer a furadeira do zero, você pega uma pronta e só aprende a ligar.</p>
+<p><b>CDN</b> = um site que guarda a biblioteca para você usar pelo link, sem baixar nada.</p>
+<h3>Passo 1: trazer a biblioteca (no HTML)</h3>
+<pre>&lt;script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"&gt;&lt;/script&gt;
+&lt;script src="../js/pets.js"&gt;&lt;/script&gt;
+<span class="c">/* A biblioteca vem ANTES do pets.js, porque o pets.js usa ela.
+   Se ficar depois: erro "dayjs is not defined" (dayjs não existe) */</span></pre>
+<h3>Passo 2: usar (no pets.js)</h3>
+<table>
+  <tr><th>Código</th><th>O que faz</th><th>Resultado</th></tr>
+  <tr><td><code>dayjs()</code></td><td>pega a data de hoje</td><td>30/09/2026</td></tr>
+  <tr><td><code>dayjs().diff('2026-08-10', 'day')</code></td><td>conta quantos <b>dias</b> se passaram desde aquela data até hoje</td><td>51</td></tr>
+  <tr><td><code>dayjs('2026-08-10').format('DD/MM/YYYY')</code></td><td>escreve a data no jeito brasileiro (Dia/Mês/Ano)</td><td>10/08/2026</td></tr>
+</table>
+<p>No site, cada pet ganhou o campo <code>chegada</code> e a lista mostra: <i>"Chegou em 10/08/2026 (há 51 dias no abrigo)"</i>.</p>
+
+<h2 class="quebra">13. JavaScript separado em vários arquivos</h2>
+<p>A ideia é a mesma de uma <b>cozinha de restaurante</b>: um cozinheiro faz a salada, outro a carne, outro a sobremesa. Cada um cuida de <b>uma coisa só</b>. Se a sobremesa der errado, você sabe exatamente onde procurar.</p>
+<table>
+  <tr><th>Arquivo</th><th>Cuida só de...</th><th>Usa função de...</th></tr>
+  <tr><td>armazenamento.js</td><td>salvar e carregar favoritos (localStorage)</td><td>ninguém</td></tr>
+  <tr><td>pets.js</td><td>mostrar os pets na tela e o clique de favoritar</td><td>armazenamento.js</td></tr>
+  <tr><td>spa.js</td><td>trocar de página (início, adoção, contato)</td><td>pets.js</td></tr>
+  <tr><td>validacao.js</td><td>regras do formulário (RegEx) e <code>validarCampo()</code></td><td>ninguém</td></tr>
+  <tr><td>cadastro.js</td><td>eventos do formulário (blur, input, submit)</td><td>validacao.js</td></tr>
+  <tr><td>main.js</td><td>toast e menu no celular</td><td>ninguém</td></tr>
+</table>
+<h3>A regra de ouro: a ORDEM dos scripts</h3>
+<pre>&lt;script src="../js/armazenamento.js"&gt;&lt;/script&gt;  <span class="c">/* 1º: quem FORNECE a função */</span>
+&lt;script src="../js/pets.js"&gt;&lt;/script&gt;           <span class="c">/* 2º: usa o armazenamento */</span>
+&lt;script src="../js/spa.js"&gt;&lt;/script&gt;            <span class="c">/* 3º: usa o pets */</span>
+&lt;script src="../js/main.js"&gt;&lt;/script&gt;</pre>
+<p>O navegador lê de cima para baixo. Se o <code>pets.js</code> viesse antes do <code>armazenamento.js</code>, ele tentaria usar <code>salvarFavoritos()</code> antes dela existir e daria erro.</p>
+<h3>Cuidados</h3>
+<p>1. Não repetir o mesmo nome de variável ou função em arquivos diferentes (senão um "atropela" o outro).<br>
+2. A comunicação vai para um lado só: spa → pets → armazenamento. Nunca o contrário.</p>
+<h3>Para saber depois: import e export</h3>
+<p>Existe um jeito mais avançado (ES6 Modules), em que o arquivo escreve <code>export</code> na função e o outro escreve <code>import</code> para pegá-la. Aí a ordem não importa mais, mas o site só funciona aberto pelo Live Server. Vamos estudar isso com calma depois.</p>
+
+<h2 class="quebra">14. Testar e caçar bugs (DevTools)</h2>
+<p><b>Bug</b> = o site faz algo diferente do que deveria. Testar é <b>tentar quebrar o site de propósito</b>: digitar coisa errada, tirar a internet, clicar fora de ordem.</p>
+<p>Aperte <b>F12</b> no navegador para abrir o DevTools:</p>
+<table>
+  <tr><th>Aba</th><th>Para que serve</th></tr>
+  <tr><td><b>Console</b></td><td>mostra os erros em vermelho, com o nome do arquivo e a linha. Também dá para testar código ali.</td></tr>
+  <tr><td><b>Elements</b></td><td>mostra o HTML "ao vivo" (atributos como <code>required</code> e <code>hidden</code>)</td></tr>
+  <tr><td><b>Network</b> (Rede)</td><td>mostra os arquivos baixados. Tem a opção <b>Offline</b> para simular sem internet.</td></tr>
+</table>
+<h3>Os 4 bugs que achamos</h3>
+<table>
+  <tr><th>Bug</th><th>Causa</th><th>Correção</th></tr>
+  <tr><td>Sem internet, a lista de pets ficava vazia</td><td>Day.js vem da CDN; sem internet, <code>dayjs</code> não existe → erro</td><td><code>if (typeof dayjs !== 'undefined')</code> no pets.js</td></tr>
+  <tr><td>Botão ativo com nome e e-mail vazios</td><td><code>checkValidity()</code> só olha campos com <code>required</code></td><td>pus <code>required</code> no nome e no email</td></tr>
+  <tr><td>"Maria-Clara" dava nome inválido</td><td>a RegEx não aceitava <code>-</code> nem <code>'</code></td><td><code>/^[A-Za-zÀ-ÿ '-]{3,}$/</code></td></tr>
+  <tr><td>Mensagem de sucesso não sumia</td><td>ninguém escondia ela de novo</td><td><code>mensagem.hidden = true</code> no evento input</td></tr>
+</table>
+
+<h2 class="quebra">Anexo: textos entregues na atividade</h2>
+<h3>Texto (a): configurações do grid e os 5 breakpoints</h3>
+<div class="texto-entrega">
+<p>O layout do site Patas Unidas foi feito com CSS Grid. O grid foi aplicado no elemento main com display: grid, e ele foi dividido em 12 colunas de larguras iguais com grid-template-columns: repeat(12, 1fr). A unidade fr divide o espaço disponível em frações iguais, então cada coluna ocupa 1/12 da largura. O espaço entre as colunas e as linhas é definido pelo gap, que usa a variável --espaco-medio (16px) do Design System, mantendo o espaçamento consistente com o resto do site.</p>
+<p>A quantidade de colunas que cada section ocupa é definida com grid-column: span. Sem nenhum @media, a section usa span 12, ou seja, ocupa a linha inteira, e as seções ficam uma embaixo da outra no celular. Conforme a tela aumenta, os @media mudam quantas colunas cada section ocupa, sempre com números que dividem 12 sem sobrar espaço (12, 6, 4 e 3).</p>
+<p>Os 5 breakpoints são:<br>
+1. 576px (celulares grandes): o padding do body aumenta de --espaco-grande (24px) para --espaco-muito-grande (32px), dando mais respiro nas laterais.<br>
+2. 768px (tablets): cada section passa a ocupar 6 colunas, ficando 2 por linha.<br>
+3. 992px (notebooks): cada section ocupa 4 colunas, ficando 3 por linha.<br>
+4. 1200px (desktops): cada section ocupa 3 colunas, ficando 4 por linha.<br>
+5. 1400px (telas muito grandes): o main recebe max-width: 1320px e margin: 0 auto, para o conteúdo não esticar demais e ficar centralizado na tela.</p>
+</div>
+
+<h3>Texto (b): breakpoints em px e a estratégia</h3>
+<div class="texto-entrega">
+<p>Breakpoints usados: 576px, 768px, 992px, 1200px e 1400px. A estratégia usada é Mobile First: o CSS base foi escrito para o celular (section com span 12, uma embaixo da outra) e os @media usam min-width para acrescentar mudanças só quando a tela fica maior. Assim, as telas maiores vão ganhando mais colunas: 2 por linha no tablet, 3 no notebook e 4 no desktop. No 576px aumenta o espaçamento lateral do body e no 1400px o main é limitado a 1320px e centralizado, para o conteúdo não ficar esticado em telas muito largas. Os valores seguem os tamanhos mais comuns de celular, tablet, notebook e monitor.</p>
+</div>
+
+<h3>Flexbox: módulos estruturais</h3>
+<table>
+  <tr><th>Nome</th><th>Propriedades</th></tr>
+  <tr><td>Cartões de conteúdo (section)</td><td>display: flex; flex-direction: column; align-items: flex-start; gap: var(--espaco-pequeno). Organiza título, texto e botão de cada cartão um embaixo do outro, alinhados à esquerda, com espaçamento do Design System.</td></tr>
+  <tr><td>Bloco de contato (address)</td><td>display: flex; flex-direction: column; gap: var(--espaco-minimo). Empilha telefone, e-mail e endereço em coluna com espaçamento uniforme entre as linhas.</td></tr>
+  <tr><td>Formulário de cadastro (form)</td><td>display: flex; flex-direction: column; gap: var(--espaco-medio). No botão de enviar: align-self: flex-start. Organiza os grupos de campos em coluna e mantém o botão alinhado no início, sem esticar.</td></tr>
+  <tr><td>Grupos de campos do formulário (fieldset)</td><td>display: flex; flex-wrap: wrap; align-items: center; gap: var(--espaco-pequeno). Coloca rótulo e campo lado a lado, centralizados na vertical, e com flex-wrap os campos descem para a linha de baixo quando não cabem na tela.</td></tr>
+</table>
+
+<h3>Menu responsivo (dropdown e hambúrguer)</h3>
+<div class="texto-entrega">
+<p>Para criar o menu de navegação do site Patas Unidas, adicionei no HTML um header com a classe .cabecalho contendo o logo, um checkbox escondido (#menu-toggle), um label com o ícone de hambúrguer (.hamburguer) e o nav (.menu) com uma lista (.menu-lista). O item "Como ajudar" (.tem-submenu) tem uma lista interna (.submenu), que é o dropdown com os links Seja voluntário, Doações e Adote um pet.</p>
+<p>O CSS foi feito com a estratégia Mobile First. O .cabecalho usa display: flex, justify-content: space-between e flex-wrap: wrap, deixando o logo à esquerda e o ícone à direita. No celular, o menu fica fechado com max-height: 0 e overflow: hidden, e a lista usa flex-direction: column para os links ficarem um embaixo do outro. O checkbox fica escondido com display: none, e o label funciona como botão do hambúrguer: quando ele é clicado, o checkbox fica marcado e o seletor .menu-toggle:checked ~ .menu muda o max-height para 500px, abrindo o menu. A transition: max-height 0.3s ease faz o menu abrir deslizando.</p>
+<p>No @media (min-width: 768px), a partir do tablet, o ícone de hambúrguer some com display: none, o .menu volta a aparecer com max-height: none e overflow: visible, e a .menu-lista muda para flex-direction: row, virando uma navegação horizontal.</p>
+<p>O submenu fica escondido por padrão no desktop com position: absolute, opacity: 0 e visibility: hidden. O item pai (.tem-submenu) recebe position: relative para o submenu aparecer logo abaixo dele (top: 100%). As pseudo-classes :hover e :focus-within mostram o dropdown (opacity: 1 e visibility: visible) quando o mouse passa em cima ou quando o usuário navega pelo teclado. A transition em opacity e transform faz o submenu aparecer suavemente, descendo alguns pixels com transform: translateY. No hover dos links, a pseudo-classe :hover troca a cor de fundo pela variável --cor-secundaria do Design System, e todas as cores e espaçamentos usam as variáveis do :root.</p>
+</div>
+
+<h3>Estilização de cartões e formulários</h3>
+<div class="texto-entrega">
+<p>Para os estados interativos do site Patas Unidas, usei as variáveis do Design System e pseudo-classes do CSS, sempre com transições para as mudanças ficarem suaves.</p>
+<p>Botões (.botao e button): o estado normal tem fundo --cor-secundaria, texto --cor-botao, bordas arredondadas (border-radius: 999px), uma sombra embaixo (box-shadow) e transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease.<br>
+- :hover (mouse em cima): o fundo muda para --cor-hover, o botão sobe 2px com transform: translateY(-2px) e a sombra fica maior, mostrando que ele é clicável.<br>
+- :focus-visible (navegação pelo teclado com Tab): aparece um contorno com outline: 3px solid --cor-botao e outline-offset: 3px, garantindo acessibilidade para quem não usa mouse.<br>
+- :active (momento do clique): o botão desce com transform: translateY(2px) e a sombra diminui, dando a sensação de que foi pressionado.<br>
+- :disabled (botão desativado): opacity: 0.5, cursor: not-allowed e sem sombra nem movimento, deixando claro que não dá para clicar.</p>
+<p>Cartões (section): fundo --cor-formularios (branco), padding --espaco-grande, border-radius: 16px e box-shadow leve. No :hover o cartão sobe 4px com transform: translateY(-4px) e a sombra aumenta, com transition de 0.3s em transform e box-shadow.</p>
+<p>Formulário: o form também virou um cartão branco com sombra e bordas arredondadas. Os fieldset têm borda de 2px e border-radius: 12px, e a legend fica em negrito com a --cor-botao. Os campos (input e select) têm padding, border: 2px solid cinza, border-radius: 8px e transition em border-color e box-shadow.<br>
+- :focus (campo selecionado): a borda muda para --cor-botao e aparece um brilho em volta com box-shadow, e o outline padrão foi removido.<br>
+- Validação visual: usei as pseudo-classes :user-valid e :user-invalid, que só aparecem depois que o usuário mexe no campo, para não mostrar erro antes da hora. Elas funcionam junto com os atributos do HTML (required, type="email" e pattern nos campos de telefone, CPF e CEP). Quando o campo está correto (:user-valid), a borda fica com a variável --sucesso (verde) e o fundo verde claro. Quando está errado (:user-invalid), a borda fica com a variável --erro (vermelho) e o fundo vermelho claro. Assim o usuário entende na hora se preencheu certo, sem precisar ler nenhuma mensagem.</p>
+</div>
+
+<h3>Biblioteca externa (Day.js)</h3>
+<div class="texto-entrega">
+<p>No site do Instituto Patas Unidas eu usei a biblioteca Day.js, que serve para trabalhar com datas em JavaScript. Escolhi ela porque é pequena, fácil de usar e resolve um problema que seria mais trabalhoso de fazer só com JS puro: calcular quantos dias se passaram entre duas datas e mostrar a data no formato brasileiro.</p>
+<p>O propósito no projeto é mostrar, na página de adoção, há quanto tempo cada pet está no abrigo. Assim o visitante vê, por exemplo: "Chegou em 10/08/2026 (há 51 dias no abrigo)". Isso ajuda a chamar atenção para os pets que estão esperando há mais tempo.</p>
+<p>Passos que eu segui:<br>
+1. Importei a biblioteca pela CDN, colocando no index.html a linha: &lt;script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"&gt;&lt;/script&gt;<br>
+2. Coloquei esse script ANTES do meu pets.js, porque o pets.js usa a biblioteca. Se ficasse depois, daria erro de "dayjs is not defined".<br>
+3. No array de pets, adicionei um campo novo chamado chegada, com a data no formato ano-mês-dia (ex: '2026-08-10').<br>
+4. Dentro da função renderizarPets, usei dois métodos básicos da biblioteca: dayjs().diff(pet.chegada, 'day') calcula quantos dias se passaram desde a chegada até hoje; dayjs(pet.chegada).format('DD/MM/YYYY') mostra a data no jeito brasileiro.<br>
+5. Coloquei o resultado dentro do &lt;li&gt; de cada pet com template literal.</p>
+<p>Sobre conflitos: a Day.js cria só uma função global chamada dayjs, e no meu código não tem nenhuma variável com esse nome, então não atrapalha o resto do site. Os meus scripts continuam separados (pets.js, spa.js, main.js) e a biblioteca carrega primeiro, então não tem problema de ordem de carregamento.</p>
+</div>
+
+<h3>JavaScript modular (arquivos separados)</h3>
+<div class="texto-entrega">
+<p>No meu projeto eu não usei import e export. Eu fiz a separação em vários arquivos JavaScript menores, e cada um cuida de uma coisa só. Assim o código fica mais organizado e fácil de achar.</p>
+<p>O critério que usei foi: o arquivo que mexe na tela não mexe no localStorage, e o arquivo que valida o formulário não cuida do envio.</p>
+<p>Como ficou a pasta js:<br>
+- armazenamento.js: só salva e carrega os pets favoritos no localStorage. Tem as funções carregarFavoritos() e salvarFavoritos().<br>
+- pets.js: só mostra a lista de pets na tela e cuida do clique para favoritar. Quando precisa salvar, ele chama salvarFavoritos().<br>
+- spa.js: só troca as páginas do site (início, adoção e contato). Quando abre a página de adoção, ele chama renderizarPets(), que está no pets.js.<br>
+- validacao.js: só tem as regras do formulário (RegEx e mensagens de erro) e a função validarCampo().<br>
+- cadastro.js: só cuida dos eventos do formulário (quando sai do campo, quando digita e quando envia). Ele chama validarCampo() do validacao.js.<br>
+- main.js: cuida do toast e do menu no celular.</p>
+<p>Como eles se comunicam: um arquivo usa a função do outro chamando pelo nome. Por isso a ordem dos scripts no HTML é importante: o arquivo que tem a função precisa vir antes do arquivo que usa ela. No index.html a ordem é armazenamento.js, pets.js, spa.js e main.js. No cadastro.html o validacao.js vem antes do cadastro.js.</p>
+<p>Para não dar problema, tomei cuidado para não repetir nome de variável ou de função em arquivos diferentes. Também fiz a comunicação ir para um lado só: o spa.js usa o pets.js, e o pets.js usa o armazenamento.js, mas nunca o contrário.</p>
+<p>Com essa separação, se eu precisar mudar o jeito de salvar os dados, eu mexo só no armazenamento.js e o resto do site continua funcionando.</p>
+</div>
+
+</body>
+</html>

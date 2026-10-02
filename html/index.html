@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instituto Patas Unidas</title>
+  <link rel="stylesheet" href="../css/estilo.css">
+</head>
+
+<body>
+
+  <header class="cabecalho">
+    <a href="#/inicio" class="logo">Patas Unidas</a>
+
+    <input type="checkbox" id="menu-toggle" class="menu-toggle">
+    <label for="menu-toggle" class="hamburguer" aria-label="Abrir menu">&#9776;</label>
+
+    <nav class="menu" aria-label="Menu principal">
+      <ul class="menu-lista">
+        <li><a href="#/inicio">Início</a></li>
+        <li class="tem-submenu">
+          <a href="#/adocao">Como ajudar ▾</a>
+          <ul class="submenu">
+            <li><a href="cadastro.html">Seja voluntário</a></li>
+            <li><a href="#/contato">Doações</a></li>
+            <li><a href="#/adocao">Adote um pet</a></li>
+          </ul>
+        </li>
+        <li><a href="#/contato">Contato</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- SPA: o JavaScript (js/spa.js) coloca aqui dentro o conteúdo de cada página -->
+  <main id="app"></main>
+
+  <!-- ===== "Páginas" da SPA: ficam guardadas e só aparecem quando o JS copia para o #app ===== -->
+
+  <template id="pagina-inicio">
+    <section id="sobre" aria-labelledby="sobre-titulo">
+      <h1 id="sobre-titulo">Instituto Patas Unidas</h1>
+      <p>
+        Somos uma organização sem fins lucrativos dedicada ao resgate,
+        cuidado e reabilitação de animais abandonados e em situação de
+        vulnerabilidade. <br>Desde 2005, já resgatamos centenas de cães e
+        gatos, promovendo adoção responsável e conscientização sobre
+        posse animal.
+      </p>
+      <p><a href="cadastro.html" target="_blank" class="botao">quero ser voluntario</a></p>
+    </section>
+
+    <section id="avisos" aria-labelledby="avisos-titulo">
+      <h2 id="avisos-titulo">Avisos</h2>
+      <div class="alerta alerta-sucesso" role="status">
+        <strong>Sucesso!</strong> Seu cadastro de voluntário foi enviado.
+      </div>
+      <div class="alerta alerta-aviso" role="status">
+        <strong>Atenção:</strong> Campanha de vacinação no sábado, das 9h às 13h.
+      </div>
+      <div class="alerta alerta-erro" role="alert">
+        <strong>Erro:</strong> Não foi possível enviar. Verifique os campos em vermelho.
+      </div>
+      <div class="alerta alerta-info" role="status">
+        <strong>Informação:</strong> As visitas para adoção são feitas com agendamento.
+      </div>
+    </section>
+  </template>
+
+  <template id="pagina-adocao">
+    <section id="adocao" aria-labelledby="adocao-titulo">
+      <h1 id="adocao-titulo">Pets para adoção</h1>
+      <!-- a lista é preenchida pelo js/pets.js -->
+      <ul class="lista-pets" id="lista-pets"></ul>
+    </section>
+  </template>
+
+  <template id="pagina-contato">
+    <section id="contato" aria-labelledby="contato-titulo">
+      <h1 id="contato-titulo">Fale Conosco</h1>
+      <address>
+        <p>Telefone: <a href="tel:+5541996466251">(41) 99646-6251</a></p>
+        <p>E-mail: <a href="mailto:contato@patasunidas.org">contato@patasunidas.org</a></p>
+        <p>Endereço: Rua Angelo Tozim, 1220 – Curitiba, PR</p>
+      </address>
+    </section>
+  </template>
+
+  <template id="pagina-nao-encontrada">
+    <section aria-labelledby="erro-titulo">
+      <h1 id="erro-titulo">Página não encontrada</h1>
+      <p>O endereço que você acessou não existe.</p>
+      <p><a href="#/inicio" class="botao">Voltar para o início</a></p>
+    </section>
+  </template>
+
+  <div class="toast" role="status" aria-live="polite">
+    <span class="toast-icone" aria-hidden="true">✔</span>
+    <p><strong>Obrigado!</strong> Sua doação foi registrada.</p>
+  </div>
+  <img src="../imagens/novotwodog900.jpg" alt="Dois cães resgatados pelo Instituto Patas Unidas">
+
+  <!-- Biblioteca Day.js (datas), importada pela CDN. Tem que vir ANTES do pets.js, que usa ela -->
+  <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+  <!-- Cada arquivo cuida de uma coisa. A ORDEM importa:
+       quem fornece a função vem ANTES de quem usa. -->
+  <script src="../js/armazenamento.js"></script>
+  <script src="../js/pets.js"></script>
+  <script src="../js/spa.js"></script>
+  <script src="../js/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,508 @@
+:root {
+    --sucesso: #2e7d32;
+    --erro: #c62828;
+    --aviso: #b26a00;
+    --info: #1565c0;
+    --cor-primaria: #ff8C69;
+    --cor-secundaria: #ffc145;
+    --cor-cabecalho: #030303;
+    --cor-botao: #1b3a4b;
+    --cor-formularios: #ffffff;
+    --cor-hover: #f4f4f4;
+    --font-letras-pequenas: 0.8rem;
+    --font-text-normal: 1rem;
+    --font-botoes: 1.25rem;
+    --font-subtitulos: 1.563rem;
+    --font-tituloprincipal: 1.953rem;
+    --espaco-minimo: 4px;
+    --espaco-pequeno: 8px;
+    --espaco-medio: 16px;
+    --espaco-grande: 24px;
+    --espaco-muito-grande: 32px;
+    --espaco-secoes: 48px;
+}
+
+
+
+
+
+body {
+    background-color: var(--cor-primaria);
+    padding: var(--espaco-grande);
+    font-family: sans-serif;
+    font-size: var(--font-text-normal);
+}
+
+h1 {
+    color: var(--cor-cabecalho);
+    font-size: var(--font-tituloprincipal);
+}
+
+.botao {
+    display: inline-block;
+    font-size: var(--font-botoes);
+    background-color: var(--cor-secundaria);
+    color: var(--cor-botao);
+    padding: var(--espaco-medio) var(--espaco-grande);
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.botao:hover {
+    background-color: var(--cor-hover)
+}
+
+main {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: var(--espaco-medio)
+}
+
+section {
+    grid-column: span 12;
+}
+
+@media(min-width:768px) {
+    section {
+        grid-column: span 6;
+    }
+}
+
+@media(min-width:576px) {
+    body {
+
+        padding: var(--espaco-muito-grande);
+    }
+}
+
+@media(min-width:992px) {
+    section {
+        grid-column: span 4;
+    }
+}
+
+@media(min-width:1200px) {
+    section {
+        grid-column: span 3;
+    }
+}
+
+@media(min-width:1400px) {
+    main {
+        max-width: 1320px;
+        margin: 0 auto;
+
+    }
+}
+/* ===== FLEXBOX: componentes internos ===== */
+
+/* Cartões (section): organiza título, texto e botão em coluna */
+section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--espaco-pequeno);
+}
+
+/* Bloco de contato: telefone, e-mail e endereço um embaixo do outro */
+address {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-minimo);
+}
+
+/* Formulário de cadastro: grupos de campos em coluna */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-medio);
+}
+
+/* Grupos do formulário: rótulo e campo lado a lado,
+   e quebram para a linha de baixo quando falta espaço */
+fieldset {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--espaco-pequeno);
+}
+
+/* Botão de enviar não estica na largura toda */
+form button {
+    align-self: flex-start;
+}
+
+/* ===== MENU DE NAVEGAÇÃO (Mobile First) ===== */
+
+.cabecalho {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: var(--espaco-medio);
+    padding: var(--espaco-medio);
+    margin-bottom: var(--espaco-grande);
+    background-color: var(--cor-botao);
+    border-radius: 12px;
+}
+
+.logo {
+    color: var(--cor-formularios);
+    font-size: var(--font-subtitulos);
+    font-weight: bold;
+    text-decoration: none;
+}
+
+/* checkbox escondido: é ele que guarda "aberto/fechado" */
+.menu-toggle {
+    display: none;
+}
+
+/* ícone de hambúrguer (aparece só no celular) */
+.hamburguer {
+    display: block;
+    font-size: var(--font-tituloprincipal);
+    color: var(--cor-formularios);
+    cursor: pointer;
+}
+
+/* menu fechado no celular */
+.menu {
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+/* quando clica no hambúrguer, o menu abre */
+.menu-toggle:checked ~ .menu {
+    max-height: 500px;
+}
+
+.menu-lista,
+.submenu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.menu-lista {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-pequeno);
+    padding-top: var(--espaco-medio);
+}
+
+.submenu {
+    padding-left: var(--espaco-medio);
+}
+
+.menu-lista a {
+    display: block;
+    padding: var(--espaco-pequeno);
+    color: var(--cor-formularios);
+    text-decoration: none;
+    border-radius: 8px;
+}
+
+.menu-lista a:hover {
+    background-color: var(--cor-secundaria);
+    color: var(--cor-botao);
+}
+
+/* ===== A partir do tablet: menu horizontal + dropdown ===== */
+@media(min-width:768px) {
+    .hamburguer {
+        display: none;
+    }
+
+    .menu {
+        width: auto;
+        max-height: none;
+        overflow: visible;
+    }
+
+    .menu-lista {
+        flex-direction: row;
+        padding-top: 0;
+    }
+
+    .tem-submenu {
+        position: relative;
+    }
+
+    /* submenu escondido por padrão */
+    .submenu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        min-width: 180px;
+        padding: var(--espaco-pequeno);
+        background-color: var(--cor-botao);
+        border-radius: 8px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-8px);
+        transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+        z-index: 10;
+    }
+
+    /* aparece ao passar o mouse ou navegar pelo teclado */
+    .tem-submenu:hover .submenu,
+    .tem-submenu:focus-within .submenu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+}
+
+/* ===== CARTÕES ===== */
+section {
+    background-color: var(--cor-formularios);
+    padding: var(--espaco-grande);
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* cartão "levanta" quando o mouse passa em cima */
+section:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== ESTADOS DOS BOTÕES ===== */
+.botao,
+button {
+    display: inline-block;
+    font-size: var(--font-botoes);
+    font-weight: bold;
+    background-color: var(--cor-secundaria);
+    color: var(--cor-botao);
+    padding: var(--espaco-medio) var(--espaco-grande);
+    border: 2px solid transparent;
+    border-radius: 999px;
+    cursor: pointer;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* hover: mouse em cima -> muda a cor e sobe um pouco */
+.botao:hover,
+button:hover {
+    background-color: var(--cor-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+}
+
+/* focus: navegando pelo teclado (Tab) -> contorno visível */
+.botao:focus-visible,
+button:focus-visible {
+    outline: 3px solid var(--cor-botao);
+    outline-offset: 3px;
+}
+
+/* active: no momento do clique -> "afunda" */
+.botao:active,
+button:active {
+    transform: translateY(2px);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* disabled: botão desativado -> apagado e sem clique */
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* ===== FORMULÁRIO ===== */
+form {
+    background-color: var(--cor-formularios);
+    padding: var(--espaco-grande);
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+fieldset {
+    border: 2px solid var(--cor-hover);
+    border-radius: 12px;
+    padding: var(--espaco-medio);
+}
+
+legend {
+    font-weight: bold;
+    color: var(--cor-botao);
+}
+
+input,
+select {
+    padding: var(--espaco-pequeno);
+    font-size: var(--font-text-normal);
+    border: 2px solid #b0b0b0;
+    border-radius: 8px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* campo selecionado */
+input:focus,
+select:focus {
+    outline: none;
+    border-color: var(--cor-botao);
+    box-shadow: 0 0 0 3px rgba(27, 58, 75, 0.25);
+}
+
+/* validação: só aparece depois que a pessoa mexe no campo */
+input:user-valid {
+    border-color: var(--sucesso);
+    background-color: #e8f5e9;
+}
+
+input:user-invalid {
+    border-color: var(--erro);
+    background-color: #ffebee;
+}
+
+/* classes colocadas pelo js/cadastro.js depois de validar */
+input.campo-sucesso {
+    border-color: var(--sucesso);
+    background-color: #e8f5e9;
+}
+
+input.campo-erro {
+    border-color: var(--erro);
+    background-color: #ffebee;
+}
+
+/* mensagem pequena de erro embaixo do campo */
+.mensagem-erro {
+    width: 100%;
+    color: var(--erro);
+    font-size: var(--font-letras-pequenas);
+}
+
+.mensagem-erro:empty {
+    display: none;
+}
+
+/* ===== COMPONENTES DE FEEDBACK ===== */
+
+/* --- Badges (etiquetas) --- */
+.lista-pets {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-pequeno);
+    width: 100%;
+}
+
+.pet {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--espaco-pequeno);
+    padding: var(--espaco-pequeno) 0;
+    border-bottom: 1px solid var(--cor-hover);
+    cursor: pointer;
+}
+
+/* pet marcado como favorito (classe colocada pelo js/pets.js no clique) */
+.pet.favorito {
+    background-color: #fff4e0;
+    border-left: 4px solid var(--cor-secundaria);
+    padding-left: var(--espaco-pequeno);
+}
+
+.badge {
+    display: inline-block;
+    padding: var(--espaco-minimo) var(--espaco-pequeno);
+    font-size: var(--font-letras-pequenas);
+    font-weight: bold;
+    color: var(--cor-formularios);
+    border-radius: 999px;
+}
+
+.badge-sucesso { background-color: var(--sucesso); }
+.badge-aviso   { background-color: var(--aviso); }
+.badge-erro    { background-color: var(--erro); }
+.badge-info    { background-color: var(--info); }
+
+/* --- Alertas --- */
+.alerta {
+    box-sizing: border-box;
+    width: 100%;
+    padding: var(--espaco-medio);
+    border-left: 6px solid;
+    border-radius: 8px;
+}
+
+.alerta-sucesso { border-color: var(--sucesso); background-color: #e8f5e9; color: var(--sucesso); }
+.alerta-aviso   { border-color: var(--aviso);   background-color: #fff4e0; color: var(--aviso); }
+.alerta-erro    { border-color: var(--erro);    background-color: #ffebee; color: var(--erro); }
+.alerta-info    { border-color: var(--info);    background-color: #e3f2fd; color: var(--info); }
+
+/* --- Toast (notificação no canto da tela) --- */
+.toast {
+    position: fixed;
+    right: var(--espaco-grande);
+    bottom: var(--espaco-grande);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-medio);
+    max-width: 320px;
+    padding: var(--espaco-medio) var(--espaco-grande);
+    background-color: var(--cor-botao);
+    color: var(--cor-formularios);
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    animation: toast-entrar 0.5s ease 0.5s both;
+}
+
+.toast p {
+    margin: 0;
+}
+
+.toast-icone {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    background-color: var(--sucesso);
+    border-radius: 50%;
+    font-weight: bold;
+}
+
+/* o toast entra subindo e aparecendo */
+@keyframes toast-entrar {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* classe colocada pelo js/main.js depois de 5 segundos */
+.toast-saindo {
+    animation: toast-sair 0.5s ease forwards;
+}
+
+@keyframes toast-sair {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(20px);
+        visibility: hidden;
+    }
+}
