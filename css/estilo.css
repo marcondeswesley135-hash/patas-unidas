@@ -154,10 +154,19 @@ form button {
     text-decoration: none;
 }
 
-/* checkbox escondido: é ele que guarda "aberto/fechado" */
+
+/* checkbox invisível, mas o Tab do teclado ainda chega nele */
 .menu-toggle {
-    display: none;
+    position: absolute;
+    opacity: 0;
 }
+
+/* quando o teclado chega no checkbox, o ícone ganha um contorno */
+.menu-toggle:focus-visible + .hamburguer {
+    outline: 3px solid var(--cor-secundaria);
+    outline-offset: 3px;
+}
+
 
 /* ícone de hambúrguer (aparece só no celular) */
 .hamburguer {
@@ -216,6 +225,10 @@ form button {
     .hamburguer {
         display: none;
     }
+    .menu-toggle {
+        display: none;
+    }
+
 
     .menu {
         width: auto;
