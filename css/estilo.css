@@ -519,3 +519,23 @@ input.campo-erro {
         visibility: hidden;
     }
 }
+
+
+/* ===== ACESSIBILIDADE: página de cadastro e rodapé ===== */
+
+/* no cadastro, o main não usa o grid de 12 colunas: tudo um embaixo do outro */
+.pagina-cadastro {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-medio);
+}
+
+/* rodapé (footer) */
+.rodape {
+    margin-top: var(--espaco-grande);
+    padding: var(--espaco-medio);
+    background-color: var(--cor-botao);
+    color: var(--cor-formularios);
+    border-radius: 12px;
+    text-align: center;
+}
