@@ -30,10 +30,14 @@ function validarCampo(campo) {
         aviso.id = 'erro-' + campo.id;
         aviso.classList.add('mensagem-erro');
         campo.after(aviso);
+                campo.setAttribute('aria-describedby', aviso.id);
+
     }
 
     // 1ª verificação: campo vazio
     if (campo.value.trim() === '') {
+                campo.setAttribute('aria-invalid', 'true');
+
         campo.classList.add('campo-erro');
         campo.classList.remove('campo-sucesso');
         aviso.textContent = 'Este campo é obrigatório.';
@@ -43,14 +47,18 @@ function validarCampo(campo) {
     // 2ª verificação: formato errado (RegEx)
     if (!regras[campo.id].test(campo.value)) {
         campo.classList.add('campo-erro');
-        campo.classList.remove('campo-sucesso');
+        campo.classList.remove('campo-sucesso');       
+         campo.setAttribute('aria-invalid', 'true');
+
         aviso.textContent = mensagensDeErro[campo.id];
         return false;
     }
 
     // tudo certo
     campo.classList.remove('campo-erro');
-    campo.classList.add('campo-sucesso');
+    campo.classList.add('campo-sucesso');  
+      campo.setAttribute('aria-invalid', 'false');
+
     aviso.textContent = '';
     return true;
 }
