@@ -45,23 +45,31 @@ function renderizarPets() {
                 <strong>${pet.nome}</strong>
                 <span class="badge ${pet.cor}">${pet.status}</span>
                 <span class="badge badge-info">${pet.especie}</span>
-                <small>${textoData}</small>
+                                <small>${textoData}</small>
+                <button type="button" class="botao-favorito" aria-pressed="${favoritos.includes(pet.nome)}" aria-label="Favoritar ${pet.nome}">★ Favoritar</button>
             </li>
+
         `;
     });
 }
 
 // 4. Evento CLICK com event delegation:
 //    os pets são criados pelo JavaScript, então o clique é escutado
-//    no #app (que sempre existe) e depois vemos se foi em um pet
+//    no #app (que sempre existe) e depois vemos se foi no botão de favoritar
 const app = document.getElementById('app');
 
 app.addEventListener('click', function (evento) {
-    const petClicado = evento.target.closest('.pet');
+    // agora o clique é no BOTÃO de favoritar (funciona com mouse e teclado)
+    const botao = evento.target.closest('.botao-favorito');
 
-    if (petClicado) {
+    if (botao) {
+        const petClicado = botao.closest('.pet');
+
         // marca ou desmarca o pet como favorito
         petClicado.classList.toggle('favorito');
+
+        // WAI-ARIA: avisa o leitor de tela se está ligado (true) ou desligado (false)
+        botao.setAttribute('aria-pressed', petClicado.classList.contains('favorito'));
 
         // atualiza a lista de favoritos
         const nome = petClicado.dataset.nome;

@@ -1,7 +1,7 @@
 :root {
     --sucesso: #2e7d32;
     --erro: #c62828;
-    --aviso: #b26a00;
+    --aviso: #8a5300;
     --info: #1565c0;
     --cor-primaria: #ff8C69;
     --cor-secundaria: #ffc145;
@@ -154,10 +154,19 @@ form button {
     text-decoration: none;
 }
 
-/* checkbox escondido: é ele que guarda "aberto/fechado" */
+
+/* checkbox invisível, mas o Tab do teclado ainda chega nele */
 .menu-toggle {
-    display: none;
+    position: absolute;
+    opacity: 0;
 }
+
+/* quando o teclado chega no checkbox, o ícone ganha um contorno */
+.menu-toggle:focus-visible + .hamburguer {
+    outline: 3px solid var(--cor-secundaria);
+    outline-offset: 3px;
+}
+
 
 /* ícone de hambúrguer (aparece só no celular) */
 .hamburguer {
@@ -216,6 +225,10 @@ form button {
     .hamburguer {
         display: none;
     }
+    .menu-toggle {
+        display: none;
+    }
+
 
     .menu {
         width: auto;
@@ -505,4 +518,79 @@ input.campo-erro {
         transform: translateY(20px);
         visibility: hidden;
     }
+}
+
+
+/* ===== ACESSIBILIDADE: página de cadastro e rodapé ===== */
+
+/* no cadastro, o main não usa o grid de 12 colunas: tudo um embaixo do outro */
+.pagina-cadastro {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-medio);
+}
+
+/* rodapé (footer) */
+.rodape {
+    margin-top: var(--espaco-grande);
+    padding: var(--espaco-medio);
+    background-color: var(--cor-botao);
+    color: var(--cor-formularios);
+    border-radius: 12px;
+    text-align: center;
+}
+
+/* ===== MODO DE ALTO CONTRASTE =====
+   Só é ativado quando a pessoa liga "alto contraste" no sistema
+   (Windows: Configurações > Acessibilidade > Temas de contraste).
+   No DevTools dá para testar em: Rendering > prefers-contrast: more */
+@media (prefers-contrast: more) {
+    body {
+        background-color: #ffffff;
+        color: #000000;
+    }
+
+    /* cartões e formulário ganham borda preta no lugar da sombra */
+    section,
+    form {
+        border: 2px solid #000000;
+        box-shadow: none;
+    }
+
+    /* botões: preto com letra branca (21:1) */
+    .botao,
+    button {
+        background-color: #000000;
+        color: #ffffff;
+        border: 2px solid #000000;
+    }
+
+    .botao:hover,
+    button:hover {
+        background-color: #333333;
+        color: #ffffff;
+    }
+
+    /* links sempre sublinhados, para não depender só da cor */
+    a {
+        text-decoration: underline;
+    }
+
+    /* contorno de foco mais grosso */
+    a:focus-visible,
+    .botao:focus-visible,
+    button:focus-visible,
+    input:focus,
+    select:focus {
+        outline: 4px solid #000000;
+        outline-offset: 3px;
+    }
+}
+
+/* ===== IMAGENS RESPONSIVAS =====
+   a imagem nunca passa da largura da tela; height:auto mantém a proporção
+   (o width/height no HTML só reservam o espaço enquanto ela carrega) */
+img {
+    max-width: 100%;
+    height: auto;
 }
