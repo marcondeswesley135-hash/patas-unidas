@@ -586,3 +586,11 @@ input.campo-erro {
         outline-offset: 3px;
     }
 }
+
+/* ===== IMAGENS RESPONSIVAS =====
+   a imagem nunca passa da largura da tela; height:auto mantém a proporção
+   (o width/height no HTML só reservam o espaço enquanto ela carrega) */
+img {
+    max-width: 100%;
+    height: auto;
+}
