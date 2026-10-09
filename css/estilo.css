@@ -539,3 +539,50 @@ input.campo-erro {
     border-radius: 12px;
     text-align: center;
 }
+
+/* ===== MODO DE ALTO CONTRASTE =====
+   Só é ativado quando a pessoa liga "alto contraste" no sistema
+   (Windows: Configurações > Acessibilidade > Temas de contraste).
+   No DevTools dá para testar em: Rendering > prefers-contrast: more */
+@media (prefers-contrast: more) {
+    body {
+        background-color: #ffffff;
+        color: #000000;
+    }
+
+    /* cartões e formulário ganham borda preta no lugar da sombra */
+    section,
+    form {
+        border: 2px solid #000000;
+        box-shadow: none;
+    }
+
+    /* botões: preto com letra branca (21:1) */
+    .botao,
+    button {
+        background-color: #000000;
+        color: #ffffff;
+        border: 2px solid #000000;
+    }
+
+    .botao:hover,
+    button:hover {
+        background-color: #333333;
+        color: #ffffff;
+    }
+
+    /* links sempre sublinhados, para não depender só da cor */
+    a {
+        text-decoration: underline;
+    }
+
+    /* contorno de foco mais grosso */
+    a:focus-visible,
+    .botao:focus-visible,
+    button:focus-visible,
+    input:focus,
+    select:focus {
+        outline: 4px solid #000000;
+        outline-offset: 3px;
+    }
+}
