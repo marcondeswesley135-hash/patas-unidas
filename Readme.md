@@ -44,6 +44,23 @@ Um site para o resgate e adoção de animais em perigo e maus tratos.
 
 Não é preciso instalar nada além disso, porque o site usa só HTML, CSS e JavaScript.
 
+## Build de produção e deploy
+
+O site no ar: https://marcondeswesley135-hash.github.io/patas-unidas/
+
+Para gerar a versão otimizada (precisa do Node.js):
+
+```
+npm install
+npm run build
+```
+
+O comando cria a pasta `dist/` com:
+- HTML, CSS e JavaScript minificados com **esbuild** e **html-minifier-terser** (cerca de 43% menores)
+- a foto principal também em **WebP** (52% menor) e **AVIF** (71% menor), usadas com a tag `<picture>`
+
+O deploy é automático: a cada push ou merge na `main`, o GitHub Actions (`.github/workflows/deploy.yml`) roda o build e publica a pasta `dist/` no **GitHub Pages**.
+
 ## Versionamento
 
 - O projeto usa **GitFlow**:

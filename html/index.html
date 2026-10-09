@@ -99,7 +99,13 @@
     <span class="toast-icone" aria-hidden="true">✔</span>
     <p><strong>Obrigado!</strong> Sua doação foi registrada.</p>
   </div>
-  <img src="../imagens/novotwodog900.jpg" alt="Dois cães resgatados pelo Instituto Patas Unidas">
+  <!-- <picture>: o navegador escolhe o formato mais leve que ele entende (AVIF, depois WebP, senão JPG).
+       width/height evitam a página "pular" enquanto a imagem carrega; loading="lazy" só baixa quando chega perto da tela -->
+  <picture>
+    <source srcset="../imagens/novotwodog900.avif" type="image/avif">
+    <source srcset="../imagens/novotwodog900.webp" type="image/webp">
+    <img src="../imagens/novotwodog900.jpg" alt="Dois cães resgatados pelo Instituto Patas Unidas" width="900" height="603" loading="lazy">
+  </picture>
 
   <!-- Biblioteca Day.js (datas), importada pela CDN. Tem que vir ANTES do pets.js, que usa ela -->
   <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
